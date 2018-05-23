@@ -1,24 +1,32 @@
-# Material Design Android Template
+# Onling Parking System: Android Application
 
-First of all, a few screenshots:
+Android Application screenshots:
 
-Smartphone          |  Tablet
+Login          |  Parking Zone
 :-------------------------:|:-------------------------:
-![Smartphones](http://www.andreas-schrade.de/assets/external/screen-nexus5.jpg)  |  ![Tablet](http://www.andreas-schrade.de/assets/external/screen-tablet.jpg)
+![Login](https://i.imgur.com/L3NcuuP.png)  |  ![Parking Zone](https://i.imgur.com/xw94ioh.png)
 
-Collapsing Toolbar          |  Navigation Drawer
-:-------------------------:|:-------------------------: 
-![Smartphones](http://www.andreas-schrade.de/assets/external/animation1.gif)  |  ![Smartphones](http://www.andreas-schrade.de/assets/external/screen-nexus5-2.jpg) 
+Log-In: Users able to create an account from the login page of the application. In the case of when user forgets their password, they will also have the option of resetting it by clicking on the "Reset Password" button. After entering the email address in the reset password field, an email is sent to the user with instructions to reset the password. When the user successfully verifies their email address with the confirmation link sent to their email upon account creating, they are able to login into the application. A token is generated and stored in the device to validate the users current session and to make API requests to the server.
 
-Support Design Library Views          |  Preferences
+Parking Slot          |  Billing
 :-------------------------:|:-------------------------: 
-![Smartphones](http://www.andreas-schrade.de/assets/external/animation2.gif)  |  ![Smartphones](http://www.andreas-schrade.de/assets/external/screen-nexus5-3.jpg) 
+![Parking Slot](https://i.imgur.com/KtPEXK8.png)  |  ![Billing](https://i.imgur.com/Kk045Dm.png) 
+
+List of Parking Zones and Slots: When user successfully logs on, the user is presented with a list of parking structures/zones available for selection. When more zones are available, they can be added into our database then the application will be able to reflect the current changes. By selecting a zone from the list prior, users will be able to then select a parking space that are given a unique id. The selected option will be the parking space the user wants to park their car. When user selects an unoccupied parking space, they are presented with a form where they can select the number of hours to park their car. After submitting the request, the microcontroller will detect whether the car is currently occupied on the spot and proceed to the close the gate, otherwise waits until the car parks to close.
+
+
+Billing Information: In order to make a purchase for a parking space, users are first required to enter their billing information which supports debit and credit cards. After entering a valid billing information, user is also given the option to remove their billing information.
+
+Purchase History          |  End Session
+:-------------------------:|:-------------------------: 
+![Purchasing History](https://i.imgur.com/d18qqGU.png)  |  ![End Session](https://i.imgur.com/UfpxrnL.png) 
+
+Purchase History: Users are able to view past purchases by selecting the "Purchase History" option in the navigation drawer. On this section, users are able to see completed and in progress purchases. If the parking space is currently in progress, user is given the option to terminate the session early. Upon clicking the end session, the server will notify the microcontroller to open the gate. 
 
 
 ## What is this?
 
-This is a State of the Art Android Material Design template. You can use this project as a template for upcoming App projects. Just clone the project, change package name and make all necessary customisations. 
-
+The Online Parking service provides and integrated experience in payment parking systems. The Particle micro controller enables parking space tracking using an ultrasonic sensor. It also controls the position of the gate, whether it's closed or open. The Android companion app provides a GUI interface for customers to conveniently monitor and pay for their parking. The Node.js server links the Android application and particle micro controller by performing the database connection and providing the logic required to manage a parking system. The server is hosted on Google Cloud using an app engine and deployed using Google Cloud Services.
 
 ## Dependencies
 
@@ -29,127 +37,15 @@ The focus of this project lies on the view layer and app navigation. It uses the
 - Support Card View Library
 - Butterknife
 - Glide 
+- Android Asynchronous Http Client
 
 ## Supported devices
 
-The template support every device with a SDK level of at least 14 (Android 4+).
+The application supports every device with a SDK level of at least 14 (Android 4+).
 
+### About
 
-## Quick walkthrough
-
-### Gradle
-
-Nothing special here. Please note that the version of the support library is extracted to *gradle.properties*:
-
-```xml
-    compile "com.android.support:appcompat-v7:${android_support_lib_version}"
-    compile "com.android.support:design:${android_support_lib_version}"
-    compile "com.android.support:cardview-v7:${android_support_lib_version}"
-
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
-```
-
-### Manifest
-
-There are only three Activities declared. The main theme is *@style/Theme.Main*.
-
-### Theme
-
-The project contains three *styles.xml*.
-
-1. res/values/styles.xml  (basic colors, styles)
-2. res/values-v21/styles.xml  (contains Android 5 statusbar/systembar features)
-3. res/values-sw600dp-land/styles.xml (used for tablet layout)
-
-You can easily change the colors of your app. You only have to set the color values in colors.xml
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="theme_primary_accent">#8BC34A</color>
-    <color name="theme_primary_dark">#1976D2</color>
-    <color name="theme_primary_light">#2196F3</color>
-    <color name="theme_window_background">#FFF5F5F5</color>
-    <color name="theme_divider">#B6B6B6</color>
-
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#727272</color>
-</resources>
-```
-
-### Navigation
-
-The navigation drawer is configured in *menu/drawer_view.xml*:
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_quotes"
-            android:icon="@drawable/ic_discuss"
-            android:title="@string/navigation_quotes" />
-        <item
-            android:id="@+id/nav_samples"
-            android:icon="@drawable/ic_forum"
-            android:title="@string/navigation_samples" />
-            ... 
-```
-
-
-
-### Base classes
-
-*BaseActivity* is the parent class for every *Activity* inside this template. This class creates and provides the navigation drawer and toolbar.
-
-*BaseFragment* is the parent for every *Fragment* class. It is responsible for view inflating and view binding (via ButterKnife).
-
-### Quotes View
-
-The *ListActivity* is the start *Activity* and supports two differend layout modes:
-
-1. One pane mode: Used on devices with a small screen size. The Activity shows only a list of all available quotes.
-2. Two pane mode: Used on tablets and every device with a high screen size (>= 600dp width). The Activity shows the list of quotes and displays the selected item in a seperate Fragment.
-
-### Settings
-
-The *SettingsActivity* represents some dummy preferences. You can easily configure your settings by modifying the *settings_prefs.xml*.
-
-### View Samples
-
-The *ViewSamplesActivity* shows some stuff from the Support Design Library.
-
-Butterknife is not only used for view binding, furthermore it is also used for configuring click listeners:
-
-```java
-    @OnClick(R.id.fab)
-    public void onFabClicked(View view) {
-       // floating action button clicked
-    }
-```
-
-For example, the following snippet (HomeDetailFragment.java) binds automatically the view:
-```java
-    @Bind(R.id.quote)
-    TextView quote;
-
-    @Bind(R.id.author)
-    TextView author;
-
-    @Bind(R.id.backdrop)
-    ImageView backdropImg;
-
-    @Bind(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-```
-
-## About
-My name is <a href="http://www.andreas-schrade.de">Andreas Schrade</a> and I am a freelance software developer with an interest in Android and Java backend development.
-
-
-
-
+Android Application base developed using Andreas Schrade Material Design Android Template. Android and Java backend was developed by Alex Tran and Kevin Ngo.
 
 
 
